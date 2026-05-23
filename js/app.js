@@ -17,8 +17,13 @@ function parseLine(line) {
   const res = [];
   let cur = '';
   let inQ = false;
-  for (let ch of line) {
-    if (ch === '"') { inQ = !inQ; continue; }
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    const next = line[i+1];
+    if (ch === '"') {
+      if (inQ && next === '"') { cur += '"'; i++; continue; }
+      inQ = !inQ; continue;
+    }
     if (ch === ',' && !inQ) { res.push(cur); cur = ''; continue; }
     cur += ch;
   }
@@ -37,9 +42,13 @@ async function loadCSV(path) {
   }
 }
 function parseDateRu(s) {
-  const parts = s.split('.');
+  // Handle ranges like 14-16.08.2026 -> take first date 14.08.2026
+  let str = s.trim();
+  const rangeMatch = str.match(/^(\d{1,2})-(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+  if (rangeMatch) str = rangeMatch[1] + '.' + rangeMatch[3] + '.' + rangeMatch[4];
+  const parts = str.split('.');
   if (parts.length === 3) return new Date(+parts[2], +parts[1]-1, +parts[0]);
-  const p2 = s.split('-');
+  const p2 = str.split('-');
   if (p2.length === 3) return new Date(+p2[0], +p2[1]-1, +p2[2]);
   return new Date(0);
 }
