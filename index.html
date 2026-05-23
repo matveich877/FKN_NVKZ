@@ -116,6 +116,34 @@
         }
       }
     }
+
+    // Modal functions
+    function openModal(idx) {
+      const n = window._newsData[idx];
+      if (!n) return;
+      document.getElementById('modalDate').textContent = fmtDateRange(n.date);
+      document.getElementById('modalTitle').textContent = n.title;
+      document.getElementById('modalContent').textContent = n.content || '';
+      const imgDiv = document.getElementById('modalImage');
+      if (n.image_url) {
+        imgDiv.innerHTML = '<img src="' + n.image_url + '" alt="">';
+      } else {
+        imgDiv.innerHTML = 'Фото новости';
+      }
+      document.getElementById('newsModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModalBtn() {
+      document.getElementById('newsModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    function closeModal(e) {
+      if (e.target === document.getElementById('newsModal')) closeModalBtn();
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModalBtn();
+    });
+
     loadPreview();
   </script>
 
