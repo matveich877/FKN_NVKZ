@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Календарь — Федерация каратэ г. Новокузнецк</title>
+  <title>Новости — Федерация каратэ г. Новокузнецк</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -33,8 +33,8 @@
 </header>
 
   <main class="container">
-    <h2 class="section-title">Календарь мероприятий</h2>
-    <div id="calendar-content"><div class="loading">Загрузка календаря...</div></div>
+    <h2 class="section-title">Новости</h2>
+    <div id="news-content"><div class="loading">Загрузка новостей...</div></div>
   </main>
 
 <footer>
@@ -56,27 +56,26 @@
 
   <script src="js/app.js"></script>
   <script>
-    async function loadCalendar() {
-      const data = await loadCSV('data/calendar.csv');
-      const container = document.getElementById('calendar-content');
+    async function loadNews() {
+      const data = await loadCSV('data/news.csv');
+      const container = document.getElementById('news-content');
       if (!data.length) {
-        container.innerHTML = '<div class="empty">Мероприятия пока не добавлены. Отредактируйте файл data/calendar.csv</div>';
+        container.innerHTML = '<div class="empty">Новости пока не добавлены. Отредактируйте файл data/news.csv</div>';
         return;
       }
-      data.sort((a,b) => parseDateRu(a.date) - parseDateRu(b.date));
-      container.innerHTML = '<div class="timeline">' + data.map(c => {
-        let docs=[]; try{ docs=JSON.parse(c.documents||'[]'); }catch(e){}
-        return `<div class="timeline-item">
-          <div class="timeline-date">${fmtDate(c.date)}</div>
-          <h3>${c.title}</h3>
-          <div class="location">${c.location || ''}</div>
-          <div class="doc-list">
-            ${docs.length ? docs.map(d => '<a class="doc-link" href="'+d.url+'" target="_blank" download>📄 '+d.name+'</a>').join('') : '<span style="font-size:13px;color:var(--text-light);">Документы пока не добавлены</span>'}
+      data.sort((a,b) => parseDateRu(b.date) - parseDateRu(a.date));
+      container.innerHTML = '<div class="news-list">' + data.map(n => `
+        <div class="news-item">
+          <div class="news-image">${n.image_url ? '<img src="'+n.image_url+'" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">' : 'Фото новости'}</div>
+          <div class="news-content">
+            <div class="date">${fmtDate(n.date)}</div>
+            <h3>${n.title}</h3>
+            <p>${n.content || ''}</p>
           </div>
-        </div>`;
-      }).join('') + '</div>';
+        </div>
+      `).join('') + '</div>';
     }
-    loadCalendar();
+    loadNews();
   </script>
 </body>
 </html>

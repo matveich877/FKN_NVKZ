@@ -32,14 +32,10 @@
   </div>
 </header>
 
-
   <main class="container">
     <h2 class="section-title">Сборная команда</h2>
-    <div id="team-content">
-      <div class="loading">Загрузка состава сборной...</div>
-    </div>
+    <div id="team-content"><div class="loading">Загрузка состава сборной...</div></div>
   </main>
-
 
 <footer>
   <div class="container footer-inner">
@@ -67,30 +63,26 @@
         container.innerHTML = '<div class="empty">Данные пока не добавлены. Отредактируйте файл data/team.csv</div>';
         return;
       }
-      // Group by age_category
       const groups = {};
       data.forEach(row => {
         const cat = row.age_category || 'Без категории';
         if (!groups[cat]) groups[cat] = [];
         groups[cat].push(row);
       });
-
       let html = '';
       Object.keys(groups).sort().forEach(cat => {
         html += `<div class="age-group"><h3>${cat}</h3><div class="cards-grid">`;
         groups[cat].forEach(p => {
-          html += `
-            <div class="card">
-              <div class="card-photo">${p.photo_url ? '<img src="'+p.photo_url+'" alt="" style="width:100%;height:100%;object-fit:cover;">' : 'Фото спортсмена'}</div>
-              <div class="card-body">
-                <h3>${p.name}</h3>
-                <div class="meta">${p.weight_category || ''}</div>
-                <span class="badge">${p.club || ''}</span>
-                <p><strong>Тренер:</strong> ${p.coach || '—'}</p>
-                <p><strong>Результаты:</strong> ${p.results || '—'}</p>
-              </div>
+          html += `<div class="card">
+            <div class="card-photo">${p.photo_url ? '<img src="'+p.photo_url+'" alt="" style="width:100%;height:100%;object-fit:cover;">' : 'Фото спортсмена'}</div>
+            <div class="card-body">
+              <h3>${p.name}</h3>
+              <div class="meta">${p.weight_category || ''}</div>
+              <span class="badge">${p.club || ''}</span>
+              <p><strong>Тренер:</strong> ${p.coach || '—'}</p>
+              <p><strong>Результаты:</strong> ${p.results || '—'}</p>
             </div>
-          `;
+          </div>`;
         });
         html += '</div></div>';
       });

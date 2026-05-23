@@ -32,14 +32,10 @@
   </div>
 </header>
 
-
   <main class="container">
     <h2 class="section-title">Фотогалерея</h2>
-    <div id="gallery-content">
-      <div class="loading">Загрузка галереи...</div>
-    </div>
+    <div id="gallery-content"><div class="loading">Загрузка галереи...</div></div>
   </main>
-
 
 <footer>
   <div class="container footer-inner">
@@ -73,8 +69,7 @@
         const first = photos[0] || '';
         const second = photos[1] || '';
         const more = photos.length > 2 ? photos.length - 2 : 0;
-        return `
-        <div class="gallery-card">
+        return `<div class="gallery-card">
           <div class="gallery-preview">
             ${first ? '<img src="'+first+'" alt="">' : '<div style="background:var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-light);font-size:13px;">Нет фото</div>'}
             ${second ? '<img src="'+second+'" alt="">' : (more ? '<div class="more">+'+more+'</div>' : '<div style="background:var(--border);"></div>')}
@@ -84,11 +79,10 @@
             <div class="date">${fmtDate(g.date)}</div>
             <div class="gallery-links">
               ${g.yandex_disk_link ? '<a href="'+g.yandex_disk_link+'" target="_blank">📁 Яндекс.Диск</a>' : ''}
-              ${photos.length ? '<a href="#" onclick="alert(\'Ссылки на фото: \\n\'+photos.join("\\n"));return false;">📷 Все фото ('+photos.length+')</a>' : ''}
+              ${photos.length ? '<a href="#" onclick="alert(\'Ссылки на фото: \n\'+photos.join(\'\n\'));return false;">📷 Все фото ('+photos.length+')</a>' : ''}
             </div>
           </div>
-        </div>
-        `;
+        </div>`;
       }).join('') + '</div>';
     }
     loadGallery();

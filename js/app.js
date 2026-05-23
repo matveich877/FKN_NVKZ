@@ -1,5 +1,4 @@
 
-// CSV Parser
 function parseCSV(text) {
   const lines = text.trim().split('\n');
   if (lines.length < 2) return [];
@@ -14,7 +13,6 @@ function parseCSV(text) {
   }
   return out;
 }
-
 function parseLine(line) {
   const res = [];
   let cur = '';
@@ -27,7 +25,6 @@ function parseLine(line) {
   res.push(cur);
   return res;
 }
-
 async function loadCSV(path) {
   try {
     const r = await fetch(path + '?t=' + Date.now());
@@ -39,8 +36,6 @@ async function loadCSV(path) {
     return [];
   }
 }
-
-// Date helpers
 function parseDateRu(s) {
   const parts = s.split('.');
   if (parts.length === 3) return new Date(+parts[2], +parts[1]-1, +parts[0]);
@@ -48,21 +43,17 @@ function parseDateRu(s) {
   if (p2.length === 3) return new Date(+p2[0], +p2[1]-1, +p2[2]);
   return new Date(0);
 }
-
 function fmtDate(s) {
   const d = parseDateRu(s);
   if (!d.getTime()) return s;
   return d.toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' });
 }
-
-// Mobile menu
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('nav');
   if (toggle && nav) {
     toggle.addEventListener('click', () => nav.classList.toggle('open'));
   }
-  // Highlight current nav
   const current = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('nav a').forEach(a => {
     if (a.getAttribute('href').includes(current)) a.classList.add('active');
