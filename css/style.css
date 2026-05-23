@@ -36,14 +36,14 @@ header {
 }
 .logo-area { display: flex; align-items: center; gap: 14px; }
 .logo-placeholder {
-  width: 120px; height: 120px; background: var(--primary); color: #fff;
+  width: 220px; height: 220px; background: var(--primary); color: #fff;
   display: flex; align-items: center; justify-content: center;
   border-radius: var(--radius); font-size: 10px; text-align: center;
   line-height: 1.2; font-weight: 600;
 }
 .logo-area img {
-  width: 120px;
-  height: 120px;
+  width: 220px;
+  height: 220px;
   object-fit: contain;
   border-radius: var(--radius);
   flex-shrink: 0;
