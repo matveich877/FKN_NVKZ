@@ -1,24 +1,54 @@
-
 function parseCSV(text) {
   if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
-  const lines = text.trim().split('\n');
+  const delimiter = detectDelimiter(text);
+
+  // Split into lines respecting quotes (multiline fields)
+  const lines = [];
+  let currentLine = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    const nextChar = text[i + 1];
+
+    if (char === '"') {
+      if (inQuotes && nextChar === '"') {
+        currentLine += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if ((char === '\n' || char === '\r') && !inQuotes) {
+      if (currentLine.trim()) {
+        lines.push(currentLine);
+      }
+      currentLine = '';
+      if (char === '\r' && nextChar === '\n') i++;
+    } else {
+      currentLine += char;
+    }
+  }
+  if (currentLine.trim()) lines.push(currentLine);
+
   if (lines.length < 2) return [];
-  const headerLine = lines[0];
-  const commas = (headerLine.match(/,/g) || []).length;
-  const semicolons = (headerLine.match(/;/g) || []).length;
-  const delimiter = semicolons > commas ? ';' : ',';
+
   const headers = parseLine(lines[0], delimiter);
   const out = [];
   for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
-    const vals = parseLine(line, delimiter);
+    const vals = parseLine(lines[i], delimiter);
     while (vals.length < headers.length) vals.push('');
     const obj = {};
     headers.forEach((h, idx) => obj[h.trim()] = vals[idx] ? vals[idx].trim() : '');
     out.push(obj);
   }
   return out;
+}
+
+function detectDelimiter(text) {
+  const firstLine = text.split('\n')[0] || '';
+  const commas = (firstLine.match(/,/g) || []).length;
+  const semicolons = (firstLine.match(/;/g) || []).length;
+  return semicolons > commas ? ';' : ',';
 }
 
 function parseLine(line, delimiter) {
