@@ -11,7 +11,7 @@
 <header>
   <div class="container header-inner">
     <div class="logo-area">
- <img src="./media/logo.png" alt="Логотип Федерации каратэ">
+      <div class="logo-placeholder">ЛОГОТИП<br>ФЕДЕРАЦИИ</div>
       <div class="logo-text">
         <h1>Федерация каратэ</h1>
         <span>город Новокузнецк</span>
@@ -76,7 +76,7 @@
         cats[cat].forEach(d => {
           html += `<tr>
             <td>${d.title}</td>
-            <td>${d.date ? fmtDate(d.date) : '—'}</td>
+            <td>${d.date ? fmtDateRange(d.date) : '—'}</td>
             <td>${d.file_url ? '<a href="'+d.file_url+'" target="_blank" download>📥 Скачать</a>' : '—'}</td>
           </tr>`;
         });

@@ -67,7 +67,7 @@
       container.innerHTML = '<div class="timeline">' + data.map(c => {
         let docs=[]; try{ docs=JSON.parse(c.documents||'[]'); }catch(e){}
         return `<div class="timeline-item">
-          <div class="timeline-date">${fmtDate(c.date)}</div>
+          <div class="timeline-date">${fmtDateRange(c.date)}</div>
           <h3>${c.title}</h3>
           <div class="location">${c.location || ''}</div>
           <div class="doc-list">
