@@ -14,7 +14,7 @@
    <img src="./media/logo.png" alt="Логотип Федерации каратэ">
       <div class="logo-text">
         <h1>Федерация каратэ</h1>
-        <span>города Новокузнецка</span>
+        <span>город Новокузнецк</span>
       </div>
     </div>
     <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')">☰ Меню</button>
@@ -64,18 +64,33 @@
         return;
       }
       data.sort((a,b) => parseDateRu(b.date) - parseDateRu(a.date));
-      container.innerHTML = '<div class="news-list">' + data.map(n => `
-        <div class="news-item">
+      container.innerHTML = '<div class="news-list">' + data.map((n, idx) => `
+        <div class="news-item" onclick="openModal(${idx})">
           <div class="news-image">${n.image_url ? '<img src="'+n.image_url+'" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">' : 'Фото новости'}</div>
           <div class="news-content">
             <div class="date">${fmtDateRange(n.date)}</div>
             <h3>${n.title}</h3>
-            <p>${n.content || ''}</p>
+            <p>${n.content ? (n.content.length>260 ? n.content.slice(0,260)+"..." : n.content) : ""}</p>
           </div>
         </div>
       `).join('') + '</div>';
+      window._newsData = data;
     }
     loadNews();
   </script>
+
+<!-- Modal -->
+<div class="modal-overlay" id="newsModal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModalBtn()">&times;</button>
+    <div class="modal-image" id="modalImage">Фото новости</div>
+    <div class="modal-body">
+      <div class="date" id="modalDate"></div>
+      <h2 id="modalTitle"></h2>
+      <p id="modalContent"></p>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

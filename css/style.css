@@ -242,6 +242,101 @@ footer {
   background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
 }
 
+
+/* Modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.active {
+  display: flex;
+}
+.modal-box {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: modalIn 0.25s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: var(--text-light);
+  cursor: pointer;
+  line-height: 1;
+  z-index: 10;
+}
+.modal-close:hover {
+  color: var(--accent);
+}
+.modal-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+  font-size: 14px;
+}
+.modal-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.modal-body {
+  padding: 28px 32px 32px;
+}
+.modal-body .date {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.modal-body h2 {
+  font-size: 22px;
+  color: var(--primary);
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+.modal-body p {
+  font-size: 15px;
+  color: var(--text-light);
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+/* Clickable news */
+.news-item {
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.news-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(30,58,95,0.12);
+}
+
 @media (max-width: 768px) {
   .hero h2 { font-size: 24px; }
   .president-section { padding: 24px; }
