@@ -1,63 +1,68 @@
 # Сайт Федерации каратэ г. Новокузнецк
 
-Многостраничный статический сайт для GitHub Pages.
+## Как наполнять сайт (простая инструкция)
 
-## Структура
+### Способ 1 — Excel (проще всего для Windows)
+1. Открой нужный CSV из папки `data/` в Excel.
+2. Если появились иероглифы: **Данные → Получить данные → Из файла → Из текстового/CSV** → выбери файл → в окне импорта укажи кодировку **UTF-8** → Загрузить.
+3. Внеси изменения. **Сохрани как CSV (разделители — запятые)**.
+4. Загрузи файл на GitHub в папку `data/`.
+5. Готово — сайт обновится автоматически.
 
-- `index.html` — Главная (приветствие президента, превью новостей и календаря)
-- `team.html` — Сборная
-- `coaches.html` — Тренеры
-- `calendar.html` — Календарь мероприятий
-- `gallery.html` — Фотогалерея
-- `news.html` — Новости
-- `documents.html` — Документы
+### Способ 2 — Google Таблицы (рекомендую, нет проблем с кодировкой)
+1. Зайди в [Google Таблицы](https://sheets.google.com).
+2. **Файл → Импортировать → Загрузить** — выбери CSV.
+3. Редактируй онлайн.
+4. **Файл → Скачать → CSV**.
+5. Загрузи на GitHub в папку `data/`.
+
+### Способ 3 — Прямо на GitHub
+1. Открой файл в репозитории → кнопка **Edit this file** (карандаш).
+2. Внеси изменения, **Commit changes**.
+
+---
+
+## Структура CSV-файлов
+
+| Файл | Столбцы | Что вносить |
+|------|---------|-------------|
+| `data/team.csv` | name, age_category, weight_category, club, coach, results, photo_url | Спортсмены группируются по age_category |
+| `data/coaches.csv` | name, club, category, achievements, photo_url | Тренеры |
+| `data/calendar.csv` | date, title, location, documents | Даты: `14-16.08.2026` или `31.10-01.11.2026`. Документы: `[{"name":"...","url":"..."}]` |
+| `data/news.csv` | date, title, content, image_url | Новости |
+| `data/gallery.csv` | date, title, photo_urls, yandex_disk_link | Фото через `;`. Ссылка на Яндекс.Диск |
+| `data/documents.csv` | category, title, file_url, date | Документы федерации |
+
+## Даты
+
+- Один день: `26.09.2026`
+- Диапазон в одном месяце: `14-16.08.2026`
+- Диапазон через месяц: `31.10-01.11.2026`
+
+## Документы в календаре
+
+Пример для одного документа:
+```
+[{"name":"Положение","url":"./docs/file.pdf"}]
+```
+
+Пример для двух документов:
+```
+[{"name":"Положение","url":"./docs/file.pdf"},{"name":"Регламент","url":"./docs/file.docx"}]
+```
+
+## Фото и файлы
+
+- Логотип: `media/logo.png`
+- Фото президента: `media/president/foto.jpg`
+- Фото спортсменов: `media/team/`
+- Фото тренеров: `media/coaches/`
+- Фото галереи: `media/gallery/`
+- Фото новостей: `media/news/`
+- PDF/DOC документы: `docs/`
 
 ## Размещение на GitHub Pages
 
-1. Создайте репозиторий на GitHub.
-2. Загрузите **все** файлы и папки в корень репозитория.
-3. Settings → Pages → Source: **main** branch, folder **/(root)** → Save.
-4. Сайт будет доступен по адресу `https://ВАШ-НИК.github.io/НАЗВАНИЕ-РЕПО/`
-
-## Важно: избежать ошибки 404
-
-GitHub Pages чувствителен к регистру имён файлов. Убедитесь, что:
-- Файлы `news.html` и `documents.html` загружены в корень репозитория
-- В меню ссылки указаны точно: `href="news.html"` и `href="documents.html"`
-- Нет пробелов в именах файлов
-
-## Обновление данных
-
-Все данные в папке `data/` в формате CSV (кодировка UTF-8, разделитель — запятая).
-
-### data/team.csv
-`name,age_category,weight_category,club,coach,results,photo_url`
-
-### data/calendar.csv
-`date,title,location,documents`
-- date: ДД.ММ.ГГГГ или ГГГГ-ММ-ДД
-- documents: JSON-массив `[{"name":"...","url":"..."}]`
-
-### data/coaches.csv
-`name,club,category,achievements,photo_url`
-
-### data/gallery.csv
-`date,title,photo_urls,yandex_disk_link`
-- photo_urls: пути через точку с запятой
-
-### data/news.csv
-`date,title,content,image_url`
-
-### data/documents.csv
-`category,title,file_url,date`
-
-## Добавление фото и документов
-
-- Фото: `media/team/`, `media/coaches/`, `media/gallery/`, `media/news/`, `media/president/`
-- Документы: `docs/`
-- Укажите пути в соответствующих CSV-файлах
-
-## Логотип и фото президента
-
-- Логотип: замените `<div class="logo-placeholder">` в `index.html` на `<img src="./media/logo.png">`
-- Президент: замените блок `president-photo` в `index.html` на `<img src="./media/president/foto.jpg">`
+1. Загрузи **все** файлы и папки в корень репозитория.
+2. Settings → Pages → Source: **main** branch, folder **/(root)**.
+3. Сайт будет доступен по `https://ВАШ-НИК.github.io/НАЗВАНИЕ-РЕПО/`

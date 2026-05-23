@@ -35,12 +35,6 @@ header {
   gap: 12px;
 }
 .logo-area { display: flex; align-items: center; gap: 14px; }
-.logo-placeholder {
-  width: 60px; height: 60px; background: var(--primary); color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: var(--radius); font-size: 10px; text-align: center;
-  line-height: 1.2; font-weight: 600;
-}
 .logo-area img {
   width: 60px;
   height: 60px;
@@ -48,13 +42,12 @@ header {
   border-radius: var(--radius);
   flex-shrink: 0;
 }
-@media (max-width: 768px) {
-  .logo-area img {
-    width: 50px;
-    height: 50px;
-  }
+.logo-placeholder {
+  width: 60px; height: 60px; background: var(--primary); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius); font-size: 10px; text-align: center;
+  line-height: 1.2; font-weight: 600;
 }
-
 .logo-text h1 { font-size: 18px; color: var(--primary); line-height: 1.3; }
 .logo-text span { font-size: 13px; color: var(--text-light); display: block; }
 
@@ -88,6 +81,13 @@ nav a:hover, nav a.active { background: var(--primary); color: #fff; }
   background: var(--card); margin: 40px 0; padding: 40px;
   border-radius: var(--radius); box-shadow: var(--shadow);
   display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap;
+}
+.president-section > img {
+  width: 220px;
+  height: 280px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  flex-shrink: 0;
 }
 .president-photo {
   width: 220px; height: 280px; object-fit: cover; border-radius: var(--radius);
@@ -245,9 +245,11 @@ footer {
 @media (max-width: 768px) {
   .hero h2 { font-size: 24px; }
   .president-section { padding: 24px; }
+  .president-section > img { width: 100%; height: 300px; }
   .president-photo { width: 100%; height: 300px; }
   .news-image { width: 100%; height: 180px; }
   .cards-grid { grid-template-columns: 1fr; }
   .gallery-preview { height: 160px; }
   .doc-table th, .doc-table td { padding: 10px 14px; font-size: 13px; }
+  .logo-area img { width: 50px; height: 50px; }
 }
