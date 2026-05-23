@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Календарь — Федерация каратэ г. Новокузнецк</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <div class="logo-area">
+      <div class="logo-placeholder">ЛОГОТИП<br>ФЕДЕРАЦИИ</div>
+      <div class="logo-text">
+        <h1>Федерация каратэ</h1>
+        <span>город Новокузнецк</span>
+      </div>
+    </div>
+    <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')">☰ Меню</button>
+    <nav>
+      <ul>
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="team.html">Сборная</a></li>
+        <li><a href="coaches.html">Тренеры</a></li>
+        <li><a href="calendar.html">Календарь</a></li>
+        <li><a href="gallery.html">Фотогалерея</a></li>
+        <li><a href="news.html">Новости</a></li>
+        <li><a href="documents.html">Документы</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+  <main class="container">
+    <h2 class="section-title">Календарь мероприятий</h2>
+    <div id="calendar-content">
+      <div class="loading">Загрузка календаря...</div>
+    </div>
+  </main>
+
+
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-block">
+      <h4>Федерация каратэ г. Новокузнецк</h4>
+      <p>Развитие традиционного каратэ, подготовка сборных команд, организация соревнований.</p>
+    </div>
+    <div class="footer-block">
+      <h4>Контакты</h4>
+      <p>Email: info@karate-novokuznetsk.ru</p>
+      <p>Telegram: <a href="https://t.me/matveich_wkf" target="_blank">@matveich_wkf</a></p>
+    </div>
+  </div>
+  <div class="container copyright">
+    © Федерация каратэ города Новокузнецк. Все права защищены.
+  </div>
+</footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    async function loadCalendar() {
+      const data = await loadCSV('data/calendar.csv');
+      const container = document.getElementById('calendar-content');
+      if (!data.length) {
+        container.innerHTML = '<div class="empty">Мероприятия пока не добавлены. Отредактируйте файл data/calendar.csv</div>';
+        return;
+      }
+      data.sort((a,b) => parseDateRu(a.date) - parseDateRu(b.date));
+      container.innerHTML = '<div class="timeline">' + data.map(c => {
+        let docs = [];
+        try { docs = JSON.parse(c.documents || '[]'); } catch(e){}
+        return `
+        <div class="timeline-item">
+          <div class="timeline-date">${fmtDate(c.date)}</div>
+          <h3>${c.title}</h3>
+          <div class="location">${c.location || ''}</div>
+          <div class="doc-list">
+            ${docs.length ? docs.map(d => '<a class="doc-link" href="'+d.url+'" target="_blank" download>📄 '+d.name+'</a>').join('') : '<span style="font-size:13px;color:var(--text-light);">Документы пока не добавлены</span>'}
+          </div>
+        </div>
+        `;
+      }).join('') + '</div>';
+    }
+    loadCalendar();
+  </script>
+</body>
+</html>

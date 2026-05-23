@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сборная — Федерация каратэ г. Новокузнецк</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <div class="logo-area">
+      <div class="logo-placeholder">ЛОГОТИП<br>ФЕДЕРАЦИИ</div>
+      <div class="logo-text">
+        <h1>Федерация каратэ</h1>
+        <span>город Новокузнецк</span>
+      </div>
+    </div>
+    <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')">☰ Меню</button>
+    <nav>
+      <ul>
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="team.html">Сборная</a></li>
+        <li><a href="coaches.html">Тренеры</a></li>
+        <li><a href="calendar.html">Календарь</a></li>
+        <li><a href="gallery.html">Фотогалерея</a></li>
+        <li><a href="news.html">Новости</a></li>
+        <li><a href="documents.html">Документы</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+  <main class="container">
+    <h2 class="section-title">Сборная команда</h2>
+    <div id="team-content">
+      <div class="loading">Загрузка состава сборной...</div>
+    </div>
+  </main>
+
+
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-block">
+      <h4>Федерация каратэ г. Новокузнецк</h4>
+      <p>Развитие традиционного каратэ, подготовка сборных команд, организация соревнований.</p>
+    </div>
+    <div class="footer-block">
+      <h4>Контакты</h4>
+      <p>Email: info@karate-novokuznetsk.ru</p>
+      <p>Telegram: <a href="https://t.me/matveich_wkf" target="_blank">@matveich_wkf</a></p>
+    </div>
+  </div>
+  <div class="container copyright">
+    © Федерация каратэ города Новокузнецк. Все права защищены.
+  </div>
+</footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    async function loadTeam() {
+      const data = await loadCSV('data/team.csv');
+      const container = document.getElementById('team-content');
+      if (!data.length) {
+        container.innerHTML = '<div class="empty">Данные пока не добавлены. Отредактируйте файл data/team.csv</div>';
+        return;
+      }
+      // Group by age_category
+      const groups = {};
+      data.forEach(row => {
+        const cat = row.age_category || 'Без категории';
+        if (!groups[cat]) groups[cat] = [];
+        groups[cat].push(row);
+      });
+
+      let html = '';
+      Object.keys(groups).sort().forEach(cat => {
+        html += `<div class="age-group"><h3>${cat}</h3><div class="cards-grid">`;
+        groups[cat].forEach(p => {
+          html += `
+            <div class="card">
+              <div class="card-photo">${p.photo_url ? '<img src="'+p.photo_url+'" alt="" style="width:100%;height:100%;object-fit:cover;">' : 'Фото спортсмена'}</div>
+              <div class="card-body">
+                <h3>${p.name}</h3>
+                <div class="meta">${p.weight_category || ''}</div>
+                <span class="badge">${p.club || ''}</span>
+                <p><strong>Тренер:</strong> ${p.coach || '—'}</p>
+                <p><strong>Результаты:</strong> ${p.results || '—'}</p>
+              </div>
+            </div>
+          `;
+        });
+        html += '</div></div>';
+      });
+      container.innerHTML = html;
+    }
+    loadTeam();
+  </script>
+</body>
+</html>

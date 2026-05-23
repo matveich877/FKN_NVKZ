@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Федерация каратэ г. Новокузнецк</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <div class="logo-area">
+      <div class="logo-placeholder">ЛОГОТИП<br>ФЕДЕРАЦИИ</div>
+      <div class="logo-text">
+        <h1>Федерация каратэ</h1>
+        <span>город Новокузнецк</span>
+      </div>
+    </div>
+    <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')">☰ Меню</button>
+    <nav>
+      <ul>
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="team.html">Сборная</a></li>
+        <li><a href="coaches.html">Тренеры</a></li>
+        <li><a href="calendar.html">Календарь</a></li>
+        <li><a href="gallery.html">Фотогалерея</a></li>
+        <li><a href="news.html">Новости</a></li>
+        <li><a href="documents.html">Документы</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+  <section class="hero">
+    <div class="container">
+      <h2>Федерация каратэ города Новокузнецк</h2>
+      <p>Традиции. Дисциплина. Победы. Мы объединяем тренеров, спортсменов и судей для развития каратэ в Кузбассе.</p>
+    </div>
+  </section>
+
+  <main class="container">
+    <!-- President -->
+    <div class="president-section">
+      <div class="president-photo">Фото президента<br>(заменить файлом<br>в папке media/president/)</div>
+      <div class="president-text">
+        <h3>Обращение президента Федерации</h3>
+        <span class="role">Президент Федерации каратэ города Новокузнецка</span>
+        <p>Уважаемые друзья! От имени Федерации каратэ города Новокузнецка приветствую вас на нашем официальном сайте.</p>
+        <p>Наша цель — создать условия для развития каратэ как вида спорта, воспитать здоровое и целеустремлённое поколение спортсменов, поддерживать тренерский корпус и популяризировать здоровый образ жизни.</p>
+        <p>На сайте вы найдёте информацию о составе сборной, календаре соревнований, тренерском составе, фотогалерею мероприятий и нормативные документы Федерации.</p>
+        <p><strong>С уважением, Президент Федерации каратэ г. Новокузнецка</strong></p>
+      </div>
+    </div>
+
+    <!-- News preview -->
+    <h2 class="section-title">Последние новости</h2>
+    <div id="news-preview" class="news-list">
+      <div class="loading">Загрузка новостей...</div>
+    </div>
+    <p style="text-align:center; margin: 20px 0 40px;">
+      <a href="news.html" style="color:var(--accent); font-weight:600; text-decoration:none;">Все новости →</a>
+    </p>
+
+    <!-- Calendar preview -->
+    <h2 class="section-title">Ближайшие мероприятия</h2>
+    <div id="calendar-preview" class="timeline">
+      <div class="loading">Загрузка календаря...</div>
+    </div>
+    <p style="text-align:center; margin: 20px 0 40px;">
+      <a href="calendar.html" style="color:var(--accent); font-weight:600; text-decoration:none;">Полный календарь →</a>
+    </p>
+  </main>
+
+
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-block">
+      <h4>Федерация каратэ г. Новокузнецк</h4>
+      <p>Развитие традиционного каратэ, подготовка сборных команд, организация соревнований.</p>
+    </div>
+    <div class="footer-block">
+      <h4>Контакты</h4>
+      <p>Email: info@karate-novokuznetsk.ru</p>
+      <p>Telegram: <a href="https://t.me/matveich_wkf" target="_blank">@matveich_wkf</a></p>
+    </div>
+  </div>
+  <div class="container copyright">
+    © Федерация каратэ города Новокузнецк. Все права защищены.
+  </div>
+</footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    async function loadPreview() {
+      const news = await loadCSV('data/news.csv');
+      const newsContainer = document.getElementById('news-preview');
+      if (!news.length) {
+        newsContainer.innerHTML = '<div class="empty">Новости пока не добавлены. Отредактируйте файл data/news.csv</div>';
+      } else {
+        news.sort((a,b) => parseDateRu(b.date) - parseDateRu(a.date));
+        newsContainer.innerHTML = news.slice(0,3).map(n => `
+          <div class="news-item">
+            <div class="news-image">${n.image_url ? '<img src="'+n.image_url+'" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">' : 'Фото новости'}</div>
+            <div class="news-content">
+              <div class="date">${fmtDate(n.date)}</div>
+              <h3>${n.title}</h3>
+              <p>${n.content ? (n.content.length > 200 ? n.content.slice(0,200)+"..." : n.content) : ""}</p>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      const cal = await loadCSV('data/calendar.csv');
+      const calContainer = document.getElementById('calendar-preview');
+      if (!cal.length) {
+        calContainer.innerHTML = '<div class="empty">Мероприятия пока не добавлены. Отредактируйте файл data/calendar.csv</div>';
+      } else {
+        const now = new Date();
+        const upcoming = cal.filter(c => parseDateRu(c.date) >= now || Math.abs(parseDateRu(c.date) - now) < 86400000*30)
+          .sort((a,b) => parseDateRu(a.date) - parseDateRu(b.date))
+          .slice(0,3);
+        if (!upcoming.length) {
+          calContainer.innerHTML = '<div class="empty">Ближайшие мероприятия отсутствуют</div>';
+        } else {
+          calContainer.innerHTML = upcoming.map(c => {
+            let docs = [];
+            try { docs = JSON.parse(c.documents || '[]'); } catch(e){}
+            return `
+            <div class="timeline-item">
+              <div class="timeline-date">${fmtDate(c.date)}</div>
+              <h3>${c.title}</h3>
+              <div class="location">${c.location || ""}</div>
+              <div class="doc-list">
+                ${docs.map(d => '<a class="doc-link" href="'+d.url+'" target="_blank">📄 '+d.name+'</a>').join('')}
+              </div>
+            </div>
+            `;
+          }).join('');
+        }
+      }
+    }
+    loadPreview();
+  </script>
+</body>
+</html>
