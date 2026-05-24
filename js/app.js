@@ -74,9 +74,12 @@ async function loadCSV(path) {
     const r = await fetch(path + '?t=' + Date.now());
     if (!r.ok) throw new Error('HTTP ' + r.status);
     const text = await r.text();
-    return parseCSV(text);
+    const data = parseCSV(text);
+    console.log('✅ CSV loaded:', path, 'rows:', data.length);
+    if (data.length > 0) console.log('First row keys:', Object.keys(data[0]));
+    return data;
   } catch (e) {
-    console.error('Ошибка загрузки ' + path, e);
+    console.error('❌ Ошибка загрузки ' + path, e);
     return [];
   }
 }

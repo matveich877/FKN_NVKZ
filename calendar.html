@@ -54,7 +54,7 @@
   </div>
 </footer>
 
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=2"></script>
   <script>
     async function loadCalendar() {
       const data = await loadCSV('data/calendar.csv');
@@ -64,8 +64,16 @@
         return;
       }
       data.sort((a,b) => parseDateRu(a.date) - parseDateRu(b.date));
-      container.innerHTML = '<div class="timeline">' + data.map(c => {
-        let docs=[]; try{ docs=JSON.parse(c.documents||'[]'); }catch(e){}
+      console.log('Calendar data:', data);
+      container.innerHTML = '<div class="timeline">' + data.map((c, idx) => {
+        let docs=[];
+        const raw = (c.documents || '').trim();
+        console.log('Row', idx, 'raw docs:', raw);
+        if (raw && raw !== '[]') {
+          try { docs = JSON.parse(raw); } catch(e) {
+            console.error('JSON parse error row', idx, e, 'raw:', raw);
+          }
+        }
         return `<div class="timeline-item">
           <div class="timeline-date">${fmtDateRange(c.date)}</div>
           <h3>${c.title}</h3>
