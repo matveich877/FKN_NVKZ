@@ -5,6 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Федерация каратэ г. Новокузнецк</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .rating-top3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 20px; }
+    .rating-card {
+      background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 24px; text-align: center; position: relative; overflow: hidden;
+    }
+    .rating-card.gold { border-top: 4px solid #d4a017; }
+    .rating-card.silver { border-top: 4px solid #a0a0a0; }
+    .rating-card.bronze { border-top: 4px solid #cd7f32; }
+    .rating-card .place {
+      font-size: 28px; font-weight: 700; margin-bottom: 8px;
+    }
+    .rating-card.gold .place { color: #b8860b; }
+    .rating-card.silver .place { color: #757575; }
+    .rating-card.bronze .place { color: #a0522d; }
+    .rating-card .name { font-size: 17px; font-weight: 600; color: var(--primary); margin-bottom: 4px; }
+    .rating-card .meta { font-size: 13px; color: var(--text-light); margin-bottom: 12px; }
+    .rating-card .points { font-size: 22px; font-weight: 700; color: var(--primary); }
+    .rating-card .points-label { font-size: 12px; color: var(--text-light); }
+  </style>
 </head>
 <body>
 
@@ -21,6 +41,7 @@
     <nav>
       <ul>
         <li><a href="index.html">Главная</a></li>
+        <li><a href="rating.html">Рейтинг</a></li>
         <li><a href="team.html">Сборная</a></li>
         <li><a href="coaches.html">Тренеры</a></li>
         <li><a href="calendar.html">Календарь</a></li>
@@ -56,6 +77,9 @@
     <h2 class="section-title">Ближайшие мероприятия</h2>
     <div id="calendar-preview" class="timeline"><div class="loading">Загрузка...</div></div>
     <p style="text-align:center;margin:20px 0 40px;"><a href="calendar.html" style="color:var(--accent);font-weight:600;text-decoration:none;">Полный календарь →</a></p>
+    <h2 class="section-title">🏆 Лидеры рейтинга</h2>
+    <div id="rating-preview"><div class="loading">Загрузка рейтинга...</div></div>
+    <p style="text-align:center;margin:20px 0 40px;"><a href="rating.html" style="color:var(--accent);font-weight:600;text-decoration:none;">Полный рейтинг →</a></p>
   </main>
 
 <footer>
@@ -114,6 +138,24 @@
             </div>`;
           }).join('');
         }
+      }
+      // Load rating top-3
+      const rating = await loadCSV('data/rating.csv');
+      const rc = document.getElementById('rating-preview');
+      if (!rating.length) { rc.innerHTML = '<div class="empty">Рейтинг пока не сформирован</div>'; }
+      else {
+        const top3 = rating.sort((a,b) => (+b.total_points || 0) - (+a.total_points || 0)).slice(0,3);
+        const cls = ['gold','silver','bronze'];
+        const icons = ['🥇','🥈','🥉'];
+        rc.innerHTML = '<div class="rating-top3">' + top3.map((r, idx) => `
+          <div class="rating-card ${cls[idx]}">
+            <div class="place">${icons[idx]}</div>
+            <div class="name">${r.name || '—'}</div>
+            <div class="meta">${r.club || ''} · ${r.age_category || ''}</div>
+            <div class="points">${r.total_points || 0}</div>
+            <div class="points-label">очков</div>
+          </div>
+        `).join('') + '</div>';
       }
     }
 
