@@ -1,44 +1,101 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Рейтинг спортсменов — Федерация каратэ г. Новокузнецк</title>
-<link rel="stylesheet" href="css/style.css">
-<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=3WkjkrINTxMFa-Kq1bEOZKSGWwcz1ZhUjg9Ezg0WqSWuSwuPZTrvFIHGm6xYbbxnPy7fvud67re7MIV4Gr8qsqS3EIGMBRKz4sVz1YOt8sW8KF9ByjZiSgsSFW1Ath77nJs0k9CROsfb1XfieHu1ppCmnxQ-34T_M_voRSr7U1yNC8WRJBnFWMSLnmvLcW032QOTutHku_2FmFl-BBB0hPu1LgDA4mZRdMCRHlT9JswTE-6OjbwqeLx5WRJ2z3nO5b5ScGgrp-DPjxiJvKAkX6pLPx4RDyBT3wlHwXeu_cjsD702xQVxen3FLD2JaFJIHiiVs7SncDFiKCGWnJkNTm-Sq4i7jhjBJa9o4MADtcVoy-00aFH9h1i48IEfgMiPr4DNGIqTp8JoiufGDdtsMw" charset="UTF-8"></script><style>
-:root{--primary:#1a3a5c;--bg:#f4f6f8;--card:#fff;--text:#1f2937;--text-light:#6b7280;--border:#e5e7eb;--shadow:0 2px 8px rgba(0,0,0,.06);--radius:10px}
-body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;margin:0}
-.container{max-width:1200px;margin:0 auto;padding:0 20px}
-.section-title{font-size:26px;font-weight:700;color:var(--primary);margin:28px 0 20px}
-.rating-info{background:#eef2f7;padding:16px 20px;border-radius:var(--radius);margin-bottom:24px;font-size:14px;color:var(--text-light)}
-.rating-info strong{color:var(--primary)}
-.rating-filters{background:var(--card);padding:20px 24px;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:24px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
-.rating-filters label{font-size:13px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-.rating-filters select,.rating-filters input{padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:14px;background:var(--bg);color:var(--text);min-width:160px}
-.rating-filters select:focus,.rating-filters input:focus{outline:none;border-color:var(--primary)}
-.filter-group{display:flex;flex-direction:column;gap:4px}
-.rating-update{text-align:right;font-size:12px;color:var(--text-light);margin-bottom:8px}
-.rating-table-wrap{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-.rating-table{width:100%;border-collapse:collapse}
-.rating-table th{background:var(--primary);color:#fff;padding:14px 16px;font-size:13px;font-weight:600;text-align:left;text-transform:uppercase;letter-spacing:.5px}
-.rating-table td{padding:12px 16px;border-top:1px solid var(--border);font-size:14px;color:var(--text)}
-.rating-table tr:hover td{background:#f8fafc}
-.rank-gold{background:#fff8e1!important}
-.rank-gold td:first-child{font-weight:700;color:#b8860b;font-size:16px}
-.rank-silver{background:#f5f5f5!important}
-.rank-silver td:first-child{font-weight:700;color:#757575;font-size:16px}
-.rank-bronze{background:#fff3e0!important}
-.rank-bronze td:first-child{font-weight:700;color:#a0522d;font-size:16px}
-.medal{display:inline-block;width:18px;height:18px;border-radius:50%;text-align:center;line-height:18px;font-size:11px;font-weight:700;color:#fff;margin-right:3px}
-.medal-gold{background:#d4a017}
-.medal-silver{background:#a0a0a0}
-.medal-bronze{background:#cd7f32}
-.points-cell{font-weight:700;color:var(--primary)}
-.club-badge{display:inline-block;background:#eef2f7;color:var(--primary);padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600}
-.no-results{text-align:center;padding:40px;color:var(--text-light);font-size:15px}
-.loading{text-align:center;padding:40px;color:var(--text-light)}
-@media(max-width:768px){.rating-filters{flex-direction:column;align-items:stretch}.rating-filters select,.rating-filters input{width:100%}.rating-table th,.rating-table td{padding:10px 8px;font-size:12px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Рейтинг — Федерация каратэ г. Новокузнецк</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=-u5VJHYAjrGVo481QNIWmukdrLNbqFgf-iBpu5Sueo2ai1WN7im3UvcPSij5VM-DE-MHS-qIFOubwm_n_8UvH8BLQENV0AN8XvduB4pCCfk8CYs06rkovA1336wmTN08Ne4uFkbrW5IP3FLB4_gq3uLzsdNZirji646R6fJk2Rz0ZwLsnAalHoxobU-CvTgylDJtRfRYmaf10B4J6FVsRVoJ_UgBSYySpon_Y1oB5PXHfjXcpuG3Z6ovhoFbBbI8tRAmUsGxDPJ_Pf-6h2CNXCSHgfokpb7uacuYPoXKhU0cEgCIBOqOEc3yT9arWGswJsSvSVXaPREBuk290GTtO4YgzBUKCYrd2xUlukfdcbIuvHNCRkdKs60xGrodLw5z_xw4sFH9M5V6Zfr_7lJVvQ" charset="UTF-8"></script><style>
+    :root {
+      --primary: #1a4a7a;
+      --primary-dark: #0f2f4f;
+      --accent: #c9a227;
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text: #1f2937;
+      --text-light: #6b7280;
+      --border: #e5e7eb;
+      --shadow: 0 2px 8px rgba(0,0,0,0.06);
+      --radius: 10px;
+    }
+    body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 4px; margin-bottom: 20px; flex-wrap: wrap; border-bottom: 2px solid var(--border); }
+    .tab-btn { padding: 10px 20px; border: none; background: transparent; color: var(--text-light); font-size: 14px; font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; }
+    .tab-btn:hover { color: var(--primary); }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    /* Tab content */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Filters */
+    .rating-filters { background: var(--card); padding: 20px 24px; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 24px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+    .rating-filters label { font-size: 13px; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .rating-filters select, .rating-filters input { padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; background: var(--bg); color: var(--text); min-width: 160px; }
+    .rating-filters select:focus, .rating-filters input:focus { outline: none; border-color: var(--primary); }
+    .filter-group { display: flex; flex-direction: column; gap: 4px; }
+
+    /* Tables */
+    .rating-table-wrap { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .rating-table { width: 100%; border-collapse: collapse; }
+    .rating-table th { background: var(--primary); color: #fff; padding: 14px 16px; font-size: 13px; font-weight: 600; text-align: left; text-transform: uppercase; letter-spacing: 0.5px; }
+    .rating-table td { padding: 12px 16px; border-top: 1px solid var(--border); font-size: 14px; color: var(--text); }
+    .rating-table tr:hover td { background: #f8fafc; }
+    .rating-table tr.clickable { cursor: pointer; }
+    .rating-table tr.clickable:hover td { background: #e8f0fe; }
+
+    /* Rank highlighting */
+    .rank-gold { background: #fff8e1 !important; }
+    .rank-gold td:first-child { font-weight: 700; color: #b8860b; font-size: 16px; }
+    .rank-silver { background: #f5f5f5 !important; }
+    .rank-silver td:first-child { font-weight: 700; color: #757575; font-size: 16px; }
+    .rank-bronze { background: #fff3e0 !important; }
+    .rank-bronze td:first-child { font-weight: 700; color: #a0522d; font-size: 16px; }
+
+    .medal { display: inline-block; width: 18px; height: 18px; border-radius: 50%; text-align: center; line-height: 18px; font-size: 11px; font-weight: 700; color: #fff; margin-right: 3px; }
+    .medal-gold { background: #d4a017; }
+    .medal-silver { background: #a0a0a0; }
+    .medal-bronze { background: #cd7f32; }
+    .points-cell { font-weight: 700; color: var(--primary); }
+    .club-badge { display: inline-block; background: #eef2f7; color: var(--primary); padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .rating-info { background: #eef2f7; padding: 16px 20px; border-radius: var(--radius); margin-bottom: 24px; font-size: 14px; color: var(--text-light); }
+    .rating-info strong { color: var(--primary); }
+    .rating-update { text-align: right; font-size: 12px; color: var(--text-light); margin-bottom: 8px; }
+    .no-results { text-align: center; padding: 40px; color: var(--text-light); font-size: 15px; }
+
+    /* Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+    .modal-overlay.active { display: flex; }
+    .modal { background: var(--card); border-radius: var(--radius); max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .modal-header { background: var(--primary); color: #fff; padding: 20px 24px; position: relative; }
+    .modal-header h3 { margin: 0; font-size: 20px; }
+    .modal-header .club { opacity: 0.9; font-size: 14px; margin-top: 4px; }
+    .modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s; }
+    .modal-close:hover { background: rgba(255,255,255,0.2); }
+    .modal-body { padding: 20px 24px; }
+    .modal-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .stat-box { background: var(--bg); padding: 14px; border-radius: 8px; text-align: center; }
+    .stat-box .num { font-size: 22px; font-weight: 700; color: var(--primary); }
+    .stat-box .label { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+    .modal-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .modal-table th { background: #f1f5f9; padding: 10px 12px; text-align: left; font-weight: 600; color: var(--text-light); font-size: 12px; text-transform: uppercase; }
+    .modal-table td { padding: 10px 12px; border-top: 1px solid var(--border); }
+    .modal-table .place-1 { color: #d4a017; font-weight: 700; }
+    .modal-table .place-2 { color: #a0a0a0; font-weight: 700; }
+    .modal-table .place-3 { color: #cd7f32; font-weight: 700; }
+
+    @media (max-width: 768px) {
+      .rating-filters { flex-direction: column; align-items: stretch; }
+      .rating-filters select, .rating-filters input { width: 100%; }
+      .rating-table th, .rating-table td { padding: 10px 8px; font-size: 12px; }
+      .tabs { gap: 2px; }
+      .tab-btn { padding: 8px 12px; font-size: 13px; }
+      .modal-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
 </head>
 <body>
 
@@ -46,9 +103,12 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
   <div class="container header-inner">
     <div class="logo-area">
       <img src="./media/logo.png" alt="Логотип Федерации каратэ">
-      <div class="logo-text"><h1>Федерация каратэ</h1><span>город Новокузнецк</span></div>
+      <div class="logo-text">
+        <h1>Федерация каратэ</h1>
+        <span>город Новокузнецк</span>
+      </div>
     </div>
-    <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')">&#9776; Меню</button>
+    <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')">☰ Меню</button>
     <nav>
       <ul>
         <li><a href="index.html">Главная</a></li>
@@ -65,63 +125,132 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 </header>
 
 <main class="container">
-  <h2 class="section-title">&#127942; Рейтинг спортсменов Федерации</h2>
+  <h2 class="section-title">🏆 Рейтинг Федерации каратэ</h2>
 
   <div class="rating-info">
-    <strong>Как формируется рейтинг:</strong> очки начисляются за участие в городских турнирах и соревнованиях, организованных Федерацией.
+    <strong>Как формируется рейтинг:</strong> очки начисляются за участие в турнирах. 
     1 место — <strong>100 очков</strong>, 2 место — <strong>80</strong>, 3 место — <strong>60</strong>, 5 место — <strong>40</strong>, участие — <strong>10</strong>.
     Рейтинг обновляется после каждого турнира.
   </div>
 
-  <div class="rating-filters">
-    <div class="filter-group">
-      <label>Поиск по имени</label>
-      <input type="text" id="searchName" placeholder="Введите ФИО..." oninput="applyFilters()">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="general" onclick="switchTab('general')">Общий рейтинг</button>
+    <button class="tab-btn" data-tab="yearly" onclick="switchTab('yearly')">По годам</button>
+    <button class="tab-btn" data-tab="monthly" onclick="switchTab('monthly')">По месяцам</button>
+    <button class="tab-btn" data-tab="clubs" onclick="switchTab('clubs')">По клубам</button>
+    <button class="tab-btn" data-tab="coaches" onclick="switchTab('coaches')">По тренерам</button>
+  </div>
+
+  <!-- General Rating -->
+  <div class="tab-panel active" id="panel-general">
+    <div class="rating-filters">
+      <div class="filter-group">
+        <label>Поиск по имени</label>
+        <input type="text" id="searchName" placeholder="Введите ФИО..." oninput="applyFilters()">
+      </div>
+      <div class="filter-group">
+        <label>Пол</label>
+        <select id="filterGender" onchange="applyFilters()">
+          <option value="">Все</option>
+          <option value="М">Мужчины</option>
+          <option value="Ж">Женщины</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Возрастная категория</label>
+        <select id="filterAge" onchange="applyFilters()">
+          <option value="">Все</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Клуб</label>
+        <select id="filterClub" onchange="applyFilters()">
+          <option value="">Все клубы</option>
+        </select>
+      </div>
     </div>
-    <div class="filter-group">
-      <label>Пол</label>
-      <select id="filterGender" onchange="applyFilters()">
-        <option value="">Все</option>
-        <option value="М">Мужчины</option>
-        <option value="Ж">Женщины</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <label>Возрастная категория</label>
-      <select id="filterAge" onchange="applyFilters()">
-        <option value="">Все</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <label>Клуб</label>
-      <select id="filterClub" onchange="applyFilters()">
-        <option value="">Все клубы</option>
-      </select>
+    <div class="rating-update" id="updateDate">Обновление: загрузка...</div>
+    <div class="rating-table-wrap">
+      <table class="rating-table">
+        <thead><tr><th>Место</th><th>Спортсмен</th><th>Клуб</th><th>Тренер</th><th>Категория</th><th>Очки</th><th>Турниров</th><th>Медали</th></tr></thead>
+        <tbody id="ratingBody"><tr><td colspan="8" class="no-results">Загрузка...</td></tr></tbody>
+      </table>
     </div>
   </div>
 
-  <div class="rating-update" id="updateDate">Обновление: загрузка...</div>
+  <!-- Yearly Rating -->
+  <div class="tab-panel" id="panel-yearly">
+    <div class="rating-filters">
+      <div class="filter-group">
+        <label>Год</label>
+        <select id="filterYear" onchange="renderYearly()"></select>
+      </div>
+    </div>
+    <div class="rating-table-wrap">
+      <table class="rating-table">
+        <thead><tr><th>Место</th><th>Спортсмен</th><th>Клуб</th><th>Тренер</th><th>Пол</th><th>Очки</th><th>Турниров</th></tr></thead>
+        <tbody id="yearlyBody"><tr><td colspan="7" class="no-results">Выберите год</td></tr></tbody>
+      </table>
+    </div>
+  </div>
 
-  <div class="rating-table-wrap">
-    <table class="rating-table" id="ratingTable">
-      <thead>
-        <tr>
-          <th>Место</th>
-          <th>Спортсмен</th>
-          <th>Клуб</th>
-          <th>Тренер</th>
-          <th>Категория</th>
-          <th>Очки</th>
-          <th>Турниров</th>
-          <th>Медали</th>
-        </tr>
-      </thead>
-      <tbody id="ratingBody">
-        <tr><td colspan="8" class="loading">Загрузка рейтинга...</td></tr>
-      </tbody>
-    </table>
+  <!-- Monthly Rating -->
+  <div class="tab-panel" id="panel-monthly">
+    <div class="rating-filters">
+      <div class="filter-group">
+        <label>Месяц</label>
+        <select id="filterMonth" onchange="renderMonthly()"></select>
+      </div>
+    </div>
+    <div class="rating-table-wrap">
+      <table class="rating-table">
+        <thead><tr><th>Место</th><th>Спортсмен</th><th>Клуб</th><th>Тренер</th><th>Пол</th><th>Очки</th><th>Турниров</th></tr></thead>
+        <tbody id="monthlyBody"><tr><td colspan="7" class="no-results">Выберите месяц</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Clubs Rating -->
+  <div class="tab-panel" id="panel-clubs">
+    <div class="rating-table-wrap">
+      <table class="rating-table">
+        <thead><tr><th>Место</th><th>Клуб</th><th>Очки</th><th>Спортсменов</th><th>Стартов</th><th>Медали</th></tr></thead>
+        <tbody id="clubsBody"><tr><td colspan="6" class="no-results">Загрузка...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Coaches Rating -->
+  <div class="tab-panel" id="panel-coaches">
+    <div class="rating-table-wrap">
+      <table class="rating-table">
+        <thead><tr><th>Место</th><th>Тренер</th><th>Очки</th><th>Спортсменов</th><th>Стартов</th><th>Медали</th></tr></thead>
+        <tbody id="coachesBody"><tr><td colspan="6" class="no-results">Загрузка...</td></tr></tbody>
+      </table>
+    </div>
   </div>
 </main>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="modalName">Спортсмен</h3>
+      <div class="club" id="modalClub">Клуб</div>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-stats" id="modalStats"></div>
+      <h4 style="margin: 0 0 12px; font-size: 14px; color: var(--text-light); text-transform: uppercase;">История выступлений</h4>
+      <div style="overflow-x: auto;">
+        <table class="modal-table">
+          <thead><tr><th>Турнир</th><th>Дата</th><th>Категория</th><th>Место</th><th>Очки</th></tr></thead>
+          <tbody id="modalDetails"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 <footer>
   <div class="container footer-inner">
@@ -131,64 +260,99 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
     </div>
     <div class="footer-block">
       <h4>Контакты</h4>
-      <p>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a2cbccc4cde2c9c3d0c3d6c78fcccdd4cdc9d7d8ccc7d6d1c98cd0d7">[email&#160;protected]</a></p>
+      <p>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6a03040c052a010b180b1e0f4704051c05011f10040f1e190144181f">[email&#160;protected]</a></p>
       <p>Telegram: <a href="https://t.me/matveich_wkf" target="_blank">@matveich_wkf</a></p>
     </div>
   </div>
   <div class="container copyright">
-    &#169; Федерация каратэ города Новокузнецк. Все права защищены.
+    © Федерация каратэ города Новокузнецк. Все права защищены.
   </div>
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-let allData = [];
-
-async function loadCSV(url) {
-  const r = await fetch(url);
-  if (!r.ok) throw new Error('HTTP ' + r.status);
-  const t = await r.text();
-  const lines = t.replace(/\uFEFF/g, '').trim().split(/\r?\n/);
-  if (lines.length < 2) return [];
-  const headers = parseLine(lines[0]);
-  const out = [];
+// ==================== CSV PARSER ====================
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/);
+  if (!lines.length) return [];
+  const headers = splitLine(lines[0]);
+  const result = [];
   for (let i = 1; i < lines.length; i++) {
-    const vals = parseLine(lines[i]);
-    if (vals.length < headers.length) continue;
+    if (!lines[i].trim()) continue;
+    const values = splitLine(lines[i]);
     const row = {};
-    headers.forEach((h, idx) => row[h] = vals[idx]);
-    out.push(row);
+    headers.forEach((h, idx) => { row[h] = values[idx] !== undefined ? values[idx] : ''; });
+    result.push(row);
   }
-  return out;
+  return result;
 }
 
-function parseLine(line) {
-  const res = [];
-  let cur = '', inQ = false;
-  for (const ch of line) {
-    if (ch === '"' && inQ) { inQ = false; continue; }
-    if (ch === '"' && !inQ) { inQ = true; continue; }
-    if (ch === ',' && !inQ) { res.push(cur.trim()); cur = ''; continue; }
-    cur += ch;
+function splitLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && line[i+1] === '"') { current += '"'; i++; }
+      else { inQuotes = !inQuotes; }
+    } else if (ch === ',' && !inQuotes) {
+      result.push(current.trim());
+      current = '';
+    } else {
+      current += ch;
+    }
   }
-  res.push(cur.trim());
-  return res;
+  result.push(current.trim());
+  return result;
 }
 
-async function loadRating() {
+// ==================== DATA ====================
+let allData = [];
+let yearlyData = [];
+let monthlyData = [];
+let clubsData = [];
+let coachesData = [];
+let athleteDetails = {};
+
+async function loadAll() {
   try {
-    const data = await loadCSV('data/rating.csv');
-    allData = data;
-    const ages = [...new Set(data.map(r => r.age_category).filter(Boolean))].sort();
-    const clubs = [...new Set(data.map(r => r.club).filter(Boolean))].sort();
-    const ageSel = document.getElementById('filterAge');
-    ages.forEach(a => { const o = document.createElement('option'); o.value = a; o.textContent = a; ageSel.appendChild(o); });
-    const clubSel = document.getElementById('filterClub');
-    clubs.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; clubSel.appendChild(o); });
-    document.getElementById('updateDate').textContent = 'Обновление: ' + new Date().toLocaleDateString('ru-RU');
+    const [ratingText, yearlyText, monthlyText, clubsText, coachesText, detailsJson] = await Promise.all([
+      fetch('data/rating.csv').then(r => r.ok ? r.text() : ''),
+      fetch('data/rating_yearly.csv').then(r => r.ok ? r.text() : ''),
+      fetch('data/rating_monthly.csv').then(r => r.ok ? r.text() : ''),
+      fetch('data/rating_clubs.csv').then(r => r.ok ? r.text() : ''),
+      fetch('data/rating_coaches.csv').then(r => r.ok ? r.text() : ''),
+      fetch('data/athlete_details.json').then(r => r.ok ? r.json() : {}),
+    ]);
+
+    allData = ratingText ? parseCSV(ratingText) : [];
+    yearlyData = yearlyText ? parseCSV(yearlyText) : [];
+    monthlyData = monthlyText ? parseCSV(monthlyText) : [];
+    clubsData = clubsText ? parseCSV(clubsText) : [];
+    coachesData = coachesText ? parseCSV(coachesText) : [];
+    athleteDetails = detailsJson || {};
+
+    initFilters();
     applyFilters();
+    initYearly();
+    initMonthly();
+    renderClubs();
+    renderCoaches();
+    document.getElementById('updateDate').textContent = 'Обновление: ' + new Date().toLocaleDateString('ru-RU');
   } catch (e) {
-    document.getElementById('ratingBody').innerHTML = '<tr><td colspan="8" class="no-results">Ошибка загрузки: ' + e.message + '</td></tr>';
+    console.error(e);
+    document.getElementById('ratingBody').innerHTML = '<tr><td colspan="8" class="no-results">Ошибка загрузки данных. Проверьте консоль (F12).</td></tr>';
   }
+}
+
+// ==================== GENERAL RATING ====================
+function initFilters() {
+  const ages = [...new Set(allData.map(r => r.age_category).filter(Boolean))].sort();
+  const clubs = [...new Set(allData.map(r => r.club).filter(Boolean))].sort();
+  const ageSelect = document.getElementById('filterAge');
+  ages.forEach(a => { const o = document.createElement('option'); o.value = a; o.textContent = a; ageSelect.appendChild(o); });
+  const clubSelect = document.getElementById('filterClub');
+  clubs.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; clubSelect.appendChild(o); });
 }
 
 function applyFilters() {
@@ -196,6 +360,7 @@ function applyFilters() {
   const gender = document.getElementById('filterGender').value;
   const age = document.getElementById('filterAge').value;
   const club = document.getElementById('filterClub').value;
+
   let filtered = allData.filter(r => {
     if (search && !(r.name || '').toLowerCase().includes(search)) return false;
     if (gender && r.gender !== gender) return false;
@@ -203,16 +368,122 @@ function applyFilters() {
     if (club && r.club !== club) return false;
     return true;
   });
+
   filtered.sort((a, b) => (+b.total_points || 0) - (+a.total_points || 0));
-  renderTable(filtered);
+  renderGeneral(filtered);
 }
 
-function renderTable(data) {
+function renderGeneral(data) {
   const tbody = document.getElementById('ratingBody');
   if (!data.length) {
     tbody.innerHTML = '<tr><td colspan="8" class="no-results">Ничего не найдено. Попробуйте изменить фильтры.</td></tr>';
     return;
   }
+  tbody.innerHTML = data.map((r, idx) => {
+    let rowClass = 'clickable';
+    if (idx === 0) rowClass += ' rank-gold';
+    else if (idx === 1) rowClass += ' rank-silver';
+    else if (idx === 2) rowClass += ' rank-bronze';
+
+    const medals = [];
+    const g = +(r.medal_gold || 0);
+    const s = +(r.medal_silver || 0);
+    const b = +(r.medal_bronze || 0);
+    if (g) medals.push('<span class="medal medal-gold">' + g + '</span>');
+    if (s) medals.push('<span class="medal medal-silver">' + s + '</span>');
+    if (b) medals.push('<span class="medal medal-bronze">' + b + '</span>');
+
+    return `<tr class="${rowClass}" onclick="openModal('${escapeHtml(r.name)}')">
+      <td>${idx + 1}</td>
+      <td><strong>${escapeHtml(r.name || '—')}</strong></td>
+      <td><span class="club-badge">${escapeHtml(r.club || '—')}</span></td>
+      <td>${escapeHtml(r.coach || '—')}</td>
+      <td>${escapeHtml(r.age_category || '—')}</td>
+      <td class="points-cell">${r.total_points || 0}</td>
+      <td>${r.tournaments || 0}</td>
+      <td>${medals.join('') || '—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ==================== YEARLY ====================
+function initYearly() {
+  const years = [...new Set(yearlyData.map(r => r.year).filter(Boolean))].sort().reverse();
+  const sel = document.getElementById('filterYear');
+  sel.innerHTML = '';
+  years.forEach(y => { const o = document.createElement('option'); o.value = y; o.textContent = y; sel.appendChild(o); });
+  if (years.length) renderYearly();
+}
+
+function renderYearly() {
+  const year = document.getElementById('filterYear').value;
+  const tbody = document.getElementById('yearlyBody');
+  if (!year) { tbody.innerHTML = '<tr><td colspan="7" class="no-results">Выберите год</td></tr>'; return; }
+  let data = yearlyData.filter(r => r.year === year);
+  data.sort((a, b) => (+b.total_points || 0) - (+a.total_points || 0));
+  if (!data.length) { tbody.innerHTML = '<tr><td colspan="7" class="no-results">Нет данных за этот год</td></tr>'; return; }
+  tbody.innerHTML = data.map((r, idx) => {
+    let rowClass = 'clickable';
+    if (idx === 0) rowClass += ' rank-gold';
+    else if (idx === 1) rowClass += ' rank-silver';
+    else if (idx === 2) rowClass += ' rank-bronze';
+    return `<tr class="${rowClass}" onclick="openModal('${escapeHtml(r.name)}')">
+      <td>${idx + 1}</td>
+      <td><strong>${escapeHtml(r.name)}</strong></td>
+      <td><span class="club-badge">${escapeHtml(r.club || '—')}</span></td>
+      <td>${escapeHtml(r.coach || '—')}</td>
+      <td>${r.gender || '—'}</td>
+      <td class="points-cell">${r.total_points || 0}</td>
+      <td>${r.tournaments || 0}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ==================== MONTHLY ====================
+function initMonthly() {
+  const months = [...new Set(monthlyData.map(r => r.month).filter(Boolean))].sort().reverse();
+  const sel = document.getElementById('filterMonth');
+  sel.innerHTML = '';
+  months.forEach(m => {
+    const o = document.createElement('option');
+    o.value = m;
+    const [y, mo] = m.split('-');
+    const monthNames = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+    o.textContent = `${monthNames[+mo-1]} ${y}`;
+    sel.appendChild(o);
+  });
+  if (months.length) renderMonthly();
+}
+
+function renderMonthly() {
+  const month = document.getElementById('filterMonth').value;
+  const tbody = document.getElementById('monthlyBody');
+  if (!month) { tbody.innerHTML = '<tr><td colspan="7" class="no-results">Выберите месяц</td></tr>'; return; }
+  let data = monthlyData.filter(r => r.month === month);
+  data.sort((a, b) => (+b.total_points || 0) - (+a.total_points || 0));
+  if (!data.length) { tbody.innerHTML = '<tr><td colspan="7" class="no-results">Нет данных за этот месяц</td></tr>'; return; }
+  tbody.innerHTML = data.map((r, idx) => {
+    let rowClass = 'clickable';
+    if (idx === 0) rowClass += ' rank-gold';
+    else if (idx === 1) rowClass += ' rank-silver';
+    else if (idx === 2) rowClass += ' rank-bronze';
+    return `<tr class="${rowClass}" onclick="openModal('${escapeHtml(r.name)}')">
+      <td>${idx + 1}</td>
+      <td><strong>${escapeHtml(r.name)}</strong></td>
+      <td><span class="club-badge">${escapeHtml(r.club || '—')}</span></td>
+      <td>${escapeHtml(r.coach || '—')}</td>
+      <td>${r.gender || '—'}</td>
+      <td class="points-cell">${r.total_points || 0}</td>
+      <td>${r.tournaments || 0}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ==================== CLUBS ====================
+function renderClubs() {
+  const tbody = document.getElementById('clubsBody');
+  if (!clubsData.length) { tbody.innerHTML = '<tr><td colspan="6" class="no-results">Нет данных</td></tr>'; return; }
+  const data = [...clubsData].sort((a, b) => (+b.total_points || 0) - (+a.total_points || 0));
   tbody.innerHTML = data.map((r, idx) => {
     let rowClass = '';
     if (idx === 0) rowClass = 'rank-gold';
@@ -225,11 +496,108 @@ function renderTable(data) {
     if (g) medals.push('<span class="medal medal-gold">' + g + '</span>');
     if (s) medals.push('<span class="medal medal-silver">' + s + '</span>');
     if (b) medals.push('<span class="medal medal-bronze">' + b + '</span>');
-    return '<tr class="' + rowClass + '"><td>' + (idx + 1) + '</td><td><strong>' + (r.name || '—') + '</strong></td><td><span class="club-badge">' + (r.club || '—') + '</span></td><td>' + (r.coach || '—') + '</td><td>' + (r.age_category || '—') + '</td><td class="points-cell">' + (r.total_points || 0) + '</td><td>' + (r.tournaments || 0) + '</td><td>' + (medals.join('') || '—') + '</td></tr>';
+    return `<tr class="${rowClass}">
+      <td>${idx + 1}</td>
+      <td><strong>${escapeHtml(r.club)}</strong></td>
+      <td class="points-cell">${r.total_points || 0}</td>
+      <td>${r.athletes_count || 0}</td>
+      <td>${r.tournaments || 0}</td>
+      <td>${medals.join('') || '—'}</td>
+    </tr>`;
   }).join('');
 }
 
-loadRating();
+// ==================== COACHES ====================
+function renderCoaches() {
+  const tbody = document.getElementById('coachesBody');
+  if (!coachesData.length) { tbody.innerHTML = '<tr><td colspan="6" class="no-results">Нет данных</td></tr>'; return; }
+  const data = [...coachesData].sort((a, b) => (+b.total_points || 0) - (+a.total_points || 0));
+  tbody.innerHTML = data.map((r, idx) => {
+    let rowClass = '';
+    if (idx === 0) rowClass = 'rank-gold';
+    else if (idx === 1) rowClass = 'rank-silver';
+    else if (idx === 2) rowClass = 'rank-bronze';
+    const medals = [];
+    const g = +(r.medal_gold || 0);
+    const s = +(r.medal_silver || 0);
+    const b = +(r.medal_bronze || 0);
+    if (g) medals.push('<span class="medal medal-gold">' + g + '</span>');
+    if (s) medals.push('<span class="medal medal-silver">' + s + '</span>');
+    if (b) medals.push('<span class="medal medal-bronze">' + b + '</span>');
+    return `<tr class="${rowClass}">
+      <td>${idx + 1}</td>
+      <td><strong>${escapeHtml(r.coach)}</strong></td>
+      <td class="points-cell">${r.total_points || 0}</td>
+      <td>${r.athletes_count || 0}</td>
+      <td>${r.tournaments || 0}</td>
+      <td>${medals.join('') || '—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ==================== TABS ====================
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + tab));
+}
+
+// ==================== MODAL ====================
+function openModal(name) {
+  const details = athleteDetails[name];
+  if (!details || !details.length) return;
+  document.getElementById('modalName').textContent = name;
+  const first = details[0];
+  const club = first.club || (allData.find(r => r.name === name) || {}).club || '';
+  document.getElementById('modalClub').textContent = club || '';
+
+  const totalPoints = details.reduce((s, d) => s + (+d.points || 0), 0);
+  const gold = details.filter(d => d.place === 1).length;
+  const silver = details.filter(d => d.place === 2).length;
+  const bronze = details.filter(d => d.place === 3).length;
+  const tournaments = new Set(details.map(d => d.tournament)).size;
+
+  document.getElementById('modalStats').innerHTML = `
+    <div class="stat-box"><div class="num">${totalPoints}</div><div class="label">Всего очков</div></div>
+    <div class="stat-box"><div class="num">${tournaments}</div><div class="label">Турниров</div></div>
+    <div class="stat-box"><div class="num">${gold}</div><div class="label">Золото</div></div>
+    <div class="stat-box"><div class="num">${silver}</div><div class="label">Серебро</div></div>
+    <div class="stat-box"><div class="num">${bronze}</div><div class="label">Бронза</div></div>
+    <div class="stat-box"><div class="num">${details.length}</div><div class="label">Стартов</div></div>
+  `;
+
+  document.getElementById('modalDetails').innerHTML = details.map(d => {
+    let placeClass = '';
+    if (d.place === 1) placeClass = 'place-1';
+    else if (d.place === 2) placeClass = 'place-2';
+    else if (d.place === 3) placeClass = 'place-3';
+    return `<tr>
+      <td>${escapeHtml(d.tournament)}</td>
+      <td>${escapeHtml(d.date)}</td>
+      <td>${escapeHtml(d.category)}</td>
+      <td class="${placeClass}">${d.place || '—'}</td>
+      <td>${d.points || 0}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modalOverlay')) return;
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// ==================== INIT ====================
+loadAll();
 </script>
 
 </body>
